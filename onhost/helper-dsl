@@ -303,7 +303,7 @@ network:
       - "$ipaddress"
       nameservers:
         search: [${DOMAIN}]
-        addresses: [127.0.0.1, 1.1.1.1]
+        addresses: [8.8.8.8, 8.8.4.4, 1.1.1.1]
       routes:
       - to: "0.0.0.0/0"
         via: "${gateway}"
