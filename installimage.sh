@@ -6,3 +6,5 @@
 . onhost/setup/rescue-env
 
 . onhost/install/ubuntu-jammy
+
+umount -R /mnt/baremetal
