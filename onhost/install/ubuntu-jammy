@@ -4,6 +4,8 @@ UBUNTU="jammy"
 UBUNTU_ARCH="amd64"
 KERNEL_PACKAGE="linux-image-unsigned-6.2.0-34-generic"
 
+DOMAIN="zhurko.de"
+
 ONHOST="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 . ${ONHOST}/config
 baremetal_config
