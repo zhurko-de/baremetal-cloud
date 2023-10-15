@@ -43,6 +43,18 @@ spawn_chroot "systemctl enable systemd-networkd.service"
 spawn_chroot "systemctl disable ssh.service"
 spawn_chroot "systemctl enable ssh.service"
 
+# update sudoers file nopasswd
+cat <<E=O=F >${BAREMETAL_ROOT}/etc/sudoers
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+Defaults	use_pty
+root	ALL=(ALL:ALL) ALL
+%admin ALL=(ALL) ALL
+%sudo   ALL=(ALL) NOPASSWD:ALL
+@includedir /etc/sudoers.d
+E=O=F
+
 # ensure kernel
 # required for grub
 spawn_chroot "mkdir /tmp/hwc"
