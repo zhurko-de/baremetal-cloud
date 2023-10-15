@@ -285,15 +285,10 @@ E=O=F
 
   # default network config
   local device=$(ip route | awk '/default/ { print $5 }')
-  local device_private=$(ip link|grep "state UP"|grep -v ${device}|head -1|tr -d ':'|cut -f2 -d" ")
 
   local gateway=$(ip route list | grep default | awk '{ print $3 }')
   local ipaddress=$(ip addr show dev ${device} | grep 'inet .*global' | awk '{ print $2 }')
   local macaddress=$(ip link show ${device} | awk '/ether/ {print $2}')
-  local ipaddress_hetzner=$(curl -s ifconfig.me)
-
-  local ipaddress_private=$(ip addr show dev ${device_private} | grep 'inet .*global' | awk '{ print $2 }')
-  local macaddress_private=$(ip link show ${device_private} | awk '/ether/ {print $2}')
 
   cat <<E=O=F >${BAREMETAL_ROOT}/etc/netplan/01-netcfg.yaml
 ---
@@ -305,7 +300,7 @@ network:
       match:
         macaddress: "${macaddress}"
       addresses:
-      - "$(curl -s ifconfig.me)/32"
+      - "$ipaddress"
       nameservers:
         search: [${DOMAIN}]
         addresses: [127.0.0.1, 1.1.1.1]
