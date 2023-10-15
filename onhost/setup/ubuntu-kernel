@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # required for grub
-mkdir /tmp/hwc
+spawn_chroot "mkdir /tmp/hwc"
 
 # install boot loaders and kernel
 spawn_chroot "DEBIAN_FRONTEND=noninteractive apt-get -y install extlinux grub-efi-amd64 linux-firmware ${KERNEL_PACKAGE}"
