@@ -24,7 +24,9 @@ cp -f /root/.ssh/authorized* ${BAREMETAL_ROOT}/root/.ssh
 spawn_chroot "ssh-keygen -A"
 
 # hostname
-spawn_chroot "echo ${TARGET_HOSTNAME:-server-$RANDOM.$DOMAIN} > /etc/hostname"
+TARGET_HOSTNAME=${TARGET_HOSTNAME:-server-$RANDOM.$DOMAIN}
+spawn_chroot "echo ${TARGET_HOSTNAME} > /etc/hostname"
+spawn_chroot "echo 127.0.1.1 ${TARGET_HOSTNAME} >> /etc/hosts"
 
 # timezone
 cp -f ${BAREMETAL_ROOT}/usr/share/zoneinfo/UTC ${BAREMETAL_ROOT}/etc/localtime
