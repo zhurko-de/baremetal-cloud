@@ -2,6 +2,7 @@
 
 UBUNTU="jammy"
 UBUNTU_ARCH="amd64"
+KERNEL_PACKAGE="linux-image-unsigned-6.2.0-34-generic"
 
 ONHOST="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 . ${ONHOST}/config
