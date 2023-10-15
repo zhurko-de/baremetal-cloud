@@ -6,5 +6,3 @@
 . onhost/disklayout/all-disk-raid0
 
 . onhost/install/ubuntu-jammy
-
-umount -R /mnt/baremetal

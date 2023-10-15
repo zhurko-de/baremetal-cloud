@@ -24,7 +24,8 @@ cp -f /root/.ssh/authorized* ${BAREMETAL_ROOT}/root/.ssh
 spawn_chroot "ssh-keygen -A"
 
 # hostname
-spawn_chroot "hostnamectl hostname ${TARGET_HOSTNAME:-server-$RANDOM.$DOMAIN}"
+spawn_chroot "hostnamectl set-hostname ${TARGET_HOSTNAME:-server-$RANDOM.$DOMAIN}"
+spawn_chroot "hostnamectl"
 
 # timezone
 cp -f ${BAREMETAL_ROOT}/usr/share/zoneinfo/UTC ${BAREMETAL_ROOT}/etc/localtime
@@ -41,3 +42,9 @@ spawn_chroot "systemctl enable systemd-networkd.service"
 spawn_chroot "systemctl disable ssh.service"
 spawn_chroot "systemctl enable ssh.service"
 
+# ensure kernel
+# required for grub
+spawn_chroot "mkdir /tmp/hwc"
+
+# install boot loaders and kernel
+spawn_chroot "DEBIAN_FRONTEND=noninteractive apt-get -y install extlinux grub-efi-amd64 linux-firmware ${KERNEL_PACKAGE}"
