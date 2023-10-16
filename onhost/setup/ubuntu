@@ -23,6 +23,11 @@ chmod 700 ${BAREMETAL_ROOT}/root/.ssh/
 cp -f /root/.ssh/authorized* ${BAREMETAL_ROOT}/root/.ssh
 spawn_chroot "ssh-keygen -A"
 
+# hostname
+TARGET_HOSTNAME=${TARGET_HOSTNAME:-server-$RANDOM.$DOMAIN}
+spawn_chroot "echo ${TARGET_HOSTNAME} > /etc/hostname"
+spawn_chroot "echo 127.0.1.1 ${TARGET_HOSTNAME} >> /etc/hosts"
+
 # timezone
 cp -f ${BAREMETAL_ROOT}/usr/share/zoneinfo/UTC ${BAREMETAL_ROOT}/etc/localtime
 echo "UTC" > ${BAREMETAL_ROOT}/etc/timezone
@@ -37,3 +42,22 @@ spawn_chroot "systemctl disable systemd-networkd.service"
 spawn_chroot "systemctl enable systemd-networkd.service"
 spawn_chroot "systemctl disable ssh.service"
 spawn_chroot "systemctl enable ssh.service"
+
+# update sudoers file nopasswd
+cat <<E=O=F >${BAREMETAL_ROOT}/etc/sudoers
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+Defaults	use_pty
+root	ALL=(ALL:ALL) ALL
+%admin ALL=(ALL) ALL
+%sudo   ALL=(ALL) NOPASSWD:ALL
+@includedir /etc/sudoers.d
+E=O=F
+
+# ensure kernel
+# required for grub
+spawn_chroot "mkdir /tmp/hwc"
+
+# install boot loaders and kernel
+spawn_chroot "DEBIAN_FRONTEND=noninteractive apt-get -y install extlinux grub-efi-amd64 linux-firmware ${KERNEL_PACKAGE}"
