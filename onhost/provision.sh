@@ -1,8 +1,12 @@
 #!/bin/bash
 
+# prepare provision
 . setup/rescue-env
 . setup/helper-dsl
-. setup/disklayouts/all-disk-raid0
 . setup/config
 
+# decide disklayout
+. disklayouts/all-disk-raid0
+
+# execute os install
 . install/ubuntu-jammy
