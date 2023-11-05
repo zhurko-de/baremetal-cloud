@@ -7,7 +7,7 @@ KERNEL_PACKAGE="linux-image-unsigned-6.2.0-34-generic"
 DOMAIN="zhurko.de"
 
 ONHOST="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-. ${ONHOST}/config
+. ${ONHOST}/setup/config
 baremetal_config
 
 alternate_wipe
