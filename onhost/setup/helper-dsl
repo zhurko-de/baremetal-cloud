@@ -53,6 +53,7 @@ alternate_wipe() {
       fi
     done
 
+    wipefs -af ${disk}
     dd if=/dev/zero of=${disk} bs=446 count=1
 
     sgdisk -Z ${disk}
