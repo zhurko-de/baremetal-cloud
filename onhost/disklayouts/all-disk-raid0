@@ -1,7 +1,7 @@
 #!/bin/bash
 ONHOST="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-. ${ONHOST}/disklayout/boot
+. ${ONHOST}/disklayouts/boot
 
 for disk in ${BOOT_DEVICES[@]:1}; do
   part $disk 127 8300 4096M boot symmetry
