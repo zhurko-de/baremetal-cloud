@@ -16,7 +16,7 @@ alternate_md
 alternate_format
 alternate_mount_baremetal
 
-. ${ONHOST}/setup/ubuntu
+. ${ONHOST}/ubuntu
 
 alternate_fstab
 alternate_bless
