@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ONHOST="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-. ${ONHOST}/config
+. ${ONHOST}/setup/config
 
 DISKS=()
 for disk in `lsblk -l|grep disk|cut -f 1 -d ' '|grep -v nvme|sort`; do
